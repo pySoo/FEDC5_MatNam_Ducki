@@ -8,30 +8,30 @@ import { ModalType } from '@/types/modal';
 import { Follow } from '@/types/response';
 
 import { Button } from './style';
+
 interface FollowButtonProps {
   followers: Follow[];
   userId: string;
 }
-export default function FollowButton(props: FollowButtonProps) {
+
+export default function FollowButton({ followers, userId }: FollowButtonProps) {
   const [isMe, setIsMe] = useState(false);
   const [followData, setFollowData] = useState<Follow | null>(null);
   const user = useRecoilValue(userAtom);
   const { openModal } = useModal();
 
-  const follower = props.followers.filter(
-    (follower: any) => follower.user === props.userId,
+  const filteredFollowers = followers.filter(
+    (follower: any) => follower.user === userId,
   );
 
-  const { mutateAsync: createFollowMutate } = useCreateFollow({
-    userId: props.userId,
-  });
+  const { mutateAsync: createFollowMutate } = useCreateFollow({ userId });
 
   const { mutate: deleteFollowMutate } = useDeleteFollow();
 
   useEffect(() => {
-    if (props.userId == user?.email) setIsMe(true);
+    if (userId == user?.email) setIsMe(true);
     const followData =
-      follower.find((follow) => follow.follower === user?._id) ?? null;
+      filteredFollowers.find((follow) => follow.follower === user?._id) ?? null;
     setFollowData(followData);
   }, []);
 
@@ -40,7 +40,7 @@ export default function FollowButton(props: FollowButtonProps) {
   };
 
   const follow = async () => {
-    const followData = await createFollowMutate(props.userId);
+    const followData = await createFollowMutate(userId);
     setFollowData(followData);
   };
 
