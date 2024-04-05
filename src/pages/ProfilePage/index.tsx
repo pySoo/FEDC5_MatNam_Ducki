@@ -145,6 +145,7 @@ export default function ProfilePage() {
                   </ImageWrapper>
                   <UserInfo
                     userName={user.fullName}
+                    userEmail={user.email}
                     userId={user.email}
                     followers={user.followers}
                   />
