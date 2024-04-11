@@ -1,7 +1,8 @@
 import { useNavigate } from 'react-router-dom';
+import { useRecoilValue } from 'recoil';
 
-import { useCheckAuthUser } from '@/hooks/useAuth';
 import { useGetPost } from '@/hooks/useGetProfile';
+import { userAtom } from '@/recoil/user';
 import { PATH } from '@/routes/path';
 
 import { MyReview } from '../ReviewCard/MyReview';
@@ -9,17 +10,16 @@ import { EmptyResultText, EmptyResultWrapper, PostWrapper } from './style';
 
 export default function MyPosts() {
   const navigate = useNavigate();
-  const { data: auth } = useCheckAuthUser();
+  const user = useRecoilValue(userAtom);
 
-  if (!auth) {
+  if (!user) {
     return null;
   }
-
-  const { data: posts } = useGetPost(auth._id);
+  const { data: posts } = useGetPost(user._id);
 
   return (
     <PostWrapper>
-      {posts?.length !== 0 && auth ? (
+      {posts?.length !== 0 && user ? (
         <>
           {posts?.map((item) => (
             <MyReview
@@ -30,7 +30,7 @@ export default function MyPosts() {
               review={item.review}
               likes={item.likes.length}
               channelId={item.channel._id}
-              id={auth._id}
+              id={user._id}
               onClick={() => navigate(`${PATH.REVIEWDETAIL}/${item._id}`)}
             />
           ))}

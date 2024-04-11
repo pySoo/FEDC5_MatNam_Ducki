@@ -1,7 +1,8 @@
 import { useNavigate } from 'react-router-dom';
+import { useRecoilValue } from 'recoil';
 
-import { useCheckAuthUser } from '@/hooks/useAuth';
 import { useGetPostDetail } from '@/hooks/useGetProfile';
+import { userAtom } from '@/recoil/user';
 import { PATH } from '@/routes/path';
 
 import { ReviewCard } from '../ReviewCard/ReviewCard';
@@ -9,14 +10,13 @@ import { EmptyResultText, EmptyResultWrapper, PostWrapper } from './style';
 
 export default function LikePosts() {
   const navigate = useNavigate();
-  const { data: auth } = useCheckAuthUser();
+  const user = useRecoilValue(userAtom);
 
-  if (!auth) {
-    // auth가 undefined일 아무것도 렌더링하지 않음
+  if (!user) {
     return null;
   }
 
-  const likes = auth.likes.map((item) => item.post); // 사용자의 좋아요한 게시물의 postId
+  const likes = user.likes.map((item) => item.post); // 사용자의 좋아요한 게시물의 postId
 
   const detailPosts = likes.map((item) => useGetPostDetail(item).data); // 게시물의 detailPost
 
