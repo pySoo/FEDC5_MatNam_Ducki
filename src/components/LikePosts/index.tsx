@@ -16,7 +16,7 @@ export default function LikePosts() {
     return null;
   }
 
-  const likes = user.likes.map((item) => item.post); // 사용자의 좋아요한 게시물의 postId
+  const likes = user.likes.map((item) => item.post).reverse();
 
   const detailPosts = likes.map((item) => useGetPostDetail(item).data); // 게시물의 detailPost
 
