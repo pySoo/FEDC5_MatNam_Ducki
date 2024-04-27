@@ -38,32 +38,26 @@ export default function ProfilePage() {
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const [introduction, setIntroduction] = useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const setSelectedFile = useSetRecoilState(selectedFileAtom);
-  const { changeImage } = useChangeImage(setIsLoading, setSelectedFile);
 
+  const setSelectedFile = useSetRecoilState(selectedFileAtom);
+  const navigate = useNavigate();
   const params = useParams();
   const userId = params.userId;
-  const navigate = useNavigate();
-  const { changeIntroduce } = useChangeIntroduce();
-
   const user = useRecoilValue(userAtom);
-
   const setUserState = useSetRecoilState(userAtom);
+
+  const { changeImage } = useChangeImage(setIsLoading, setSelectedFile);
+
+  const { changeIntroduce } = useChangeIntroduce();
 
   const { mutate: signOut } = useSignOut({ setUserState });
 
   useEffect(() => {
-    if (user) {
-      setIntroduction(user.username || '');
-    }
-  }, [user]);
-
-  useEffect(() => {
-    if (userId === 'undefined') {
+    if (!user) {
       Toast.info('로그인 후 이용해 보세요!');
       navigate('/signIn');
     }
-  }, [userId]);
+  }, [user]);
 
   const handleFileChange = (file: File | null) => {
     if (file) {
@@ -99,7 +93,6 @@ export default function ProfilePage() {
       Toast.info('작성 범위를 초과했습니다.');
 
       if (user) {
-        // 범위를 넘기면 alert 발생하면서 초기값으로 돌아가게 되어서 일단은 서버쪽에 보내는 쪽으로 저장하도록했습니다.
         changeIntroduce({
           fullName: user.fullName,
           username: introduction,
