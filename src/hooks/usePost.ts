@@ -7,6 +7,7 @@ export const useGetPostByChannel = ({ channelId }: GetPostByChannelPayload) => {
   return useQuery({
     queryKey: ['postsByChannel', channelId],
     queryFn: () => getPostByChannel({ channelId }),
+    keepPreviousData: true,
     retry: false,
   });
 };
