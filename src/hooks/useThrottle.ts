@@ -4,7 +4,7 @@ export const useThrottle = (callback: () => void, delay?: number) => {
   const isWaiting = useRef(false);
 
   const timerId = useRef<ReturnType<typeof setTimeout>>();
-  const timeDelay = delay ?? 500;
+  const timeDelay = delay ?? 200;
 
   return () => {
     if (!isWaiting.current) {
