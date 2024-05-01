@@ -29,7 +29,9 @@ export default function KeepScrollContainer({ children }: PropsWithChildren) {
     if (scrollRef.current === null) return;
 
     if (isKeepScrollPath) {
-      scrollRef.current.scrollTo(0, scrollState.y);
+      setTimeout(() => {
+        scrollRef.current?.scrollTo(scrollState.x, scrollState.y);
+      }, 0);
 
       scrollRef.current.addEventListener('scroll', handleScroll);
       return () => {
