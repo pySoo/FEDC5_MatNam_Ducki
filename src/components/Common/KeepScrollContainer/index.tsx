@@ -17,9 +17,10 @@ export default function KeepScrollContainer({ children }: PropsWithChildren) {
 
   const handleScroll = useThrottle(() => {
     if (scrollRef.current === null) return;
+    if (!isKeepScrollPath) return;
 
     setScrollState({
-      x: 0,
+      ...scrollState,
       y: scrollRef.current.scrollTop,
     });
   });
