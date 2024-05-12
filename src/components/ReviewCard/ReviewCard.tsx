@@ -66,7 +66,7 @@ export const ReviewCard = ({
         <ProfileNickname
           onClick={(event) => {
             event.stopPropagation();
-            navigate(`${PATH.PROFILE}/${id}`);
+            navigate(`${PATH.USERPROFILE}/${id}`);
           }}>
           {profileName}
         </ProfileNickname>
