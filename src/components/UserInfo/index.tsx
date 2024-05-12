@@ -1,3 +1,6 @@
+import { useRecoilValue } from 'recoil';
+
+import { userAtom } from '@/recoil/user';
 import { PropsUserInfo } from '@/types/profile';
 
 import FollowButton from '../FollowButton';
@@ -9,11 +12,14 @@ export default function UserInfo({
   userId,
   followers,
 }: PropsUserInfo) {
+  const user = useRecoilValue(userAtom);
   return (
     <UserInfoSection>
       <UserName>{userName}</UserName>
       <UserId>{userEmail}</UserId>
-      <FollowButton userId={userId} followers={followers}></FollowButton>
+      {user && (
+        <FollowButton userId={userId} followers={followers}></FollowButton>
+      )}
     </UserInfoSection>
   );
 }
