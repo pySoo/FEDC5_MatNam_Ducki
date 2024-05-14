@@ -22,7 +22,7 @@ export default function KeepScrollContainer({ children }: PropsWithChildren) {
 
     setScrollState({
       ...scrollState,
-      y: scrollRef.current.scrollTop,
+      [pathname]: scrollRef.current.scrollTop,
     });
   });
 
@@ -32,6 +32,16 @@ export default function KeepScrollContainer({ children }: PropsWithChildren) {
       scrollRef.current.scrollTo(0, 0);
       return;
     }
+
+    setTimeout(() => {
+      const scrollY = scrollState[pathname] ?? 0;
+      scrollRef.current?.scrollTo(0, scrollY);
+    }, 0);
+
+    scrollRef.current.addEventListener('scroll', handleScroll);
+    return () => {
+      scrollRef.current?.removeEventListener('scroll', handleScroll);
+    };
   }, [scrollRef, pathname]);
 
   return <ScrollWrapper ref={scrollRef}>{children}</ScrollWrapper>;
