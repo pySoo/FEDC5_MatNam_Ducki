@@ -17,8 +17,8 @@ export default function KeepScrollContainer({ children }: PropsWithChildren) {
     pathname === PATH.ROOT || pathname.includes(PATH.DIRECTMESSAGEDETAIL);
 
   const handleScroll = useThrottle(() => {
-    if (scrollRef.current === null) return;
     if (!isKeepScrollPath) return;
+    if (scrollRef.current === null) return;
 
     setScrollState({
       ...scrollState,
@@ -28,18 +28,9 @@ export default function KeepScrollContainer({ children }: PropsWithChildren) {
 
   useEffect(() => {
     if (scrollRef.current === null) return;
-
-    if (isKeepScrollPath) {
-      setTimeout(() => {
-        scrollRef.current?.scrollTo(scrollState.x, scrollState.y);
-      }, 0);
-
-      scrollRef.current.addEventListener('scroll', handleScroll);
-      return () => {
-        scrollRef.current?.removeEventListener('scroll', handleScroll);
-      };
-    } else {
+    if (!isKeepScrollPath) {
       scrollRef.current.scrollTo(0, 0);
+      return;
     }
   }, [scrollRef, pathname]);
 
