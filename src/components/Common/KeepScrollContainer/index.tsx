@@ -13,7 +13,8 @@ export default function KeepScrollContainer({ children }: PropsWithChildren) {
   const scrollRef = useRef<HTMLDivElement>(null);
 
   const { pathname } = useLocation();
-  const isKeepScrollPath = pathname === PATH.ROOT;
+  const isKeepScrollPath =
+    pathname === PATH.ROOT || pathname.includes(PATH.DIRECTMESSAGEDETAIL);
 
   const handleScroll = useThrottle(() => {
     if (scrollRef.current === null) return;
