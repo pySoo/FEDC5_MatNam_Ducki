@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useMemo, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 
@@ -18,6 +18,9 @@ export default function MessageList({ userId, messageList }: MessageListProps) {
   const scrollRef = useRef<HTMLDivElement | null>(null);
   const { pathname } = useLocation();
   const [scrollState, setScrollState] = useRecoilState(scrollAtom);
+
+  const prevMessageList = useMemo(() => messageList, []);
+
   const handleScroll = useThrottle(() => {
     if (scrollRef.current === null) return;
 
@@ -28,10 +31,13 @@ export default function MessageList({ userId, messageList }: MessageListProps) {
   });
 
   useEffect(() => {
-    if (scrollRef.current) {
+    if (!scrollRef.current) return;
+
+    if (prevMessageList.length !== messageList.length) {
       scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
     }
-  }, [messageList]);
+  }, [messageList, prevMessageList]);
+
   useEffect(() => {
     if (!scrollRef.current) return;
 
