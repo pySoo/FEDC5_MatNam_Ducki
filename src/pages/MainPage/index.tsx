@@ -5,6 +5,7 @@ import { useSetRecoilState } from 'recoil';
 
 import BottomNavBar from '@/components/BottomNavBar';
 import ErrorFallback from '@/components/Common/ErrorFallback';
+import KeepScrollContainer from '@/components/Common/KeepScrollContainer';
 import ModalContainer from '@/components/Common/Modal/ModalContainer';
 import Settings from '@/components/Common/Settings';
 import Spinner from '@/components/Common/Spinner';
@@ -13,7 +14,7 @@ import { ACCESS_TOKEN_KEY } from '@/constants/api';
 import { useCheckAuthUser } from '@/hooks/useAuth';
 import { userAtom } from '@/recoil/user';
 
-import { ContentWrapper, MainPageWrapper, ScrollWrapper } from './style';
+import { ContentWrapper, MainPageWrapper } from './style';
 
 export default function MainPage() {
   const token = localStorage.getItem(ACCESS_TOKEN_KEY);
@@ -34,11 +35,11 @@ export default function MainPage() {
       <ErrorBoundary FallbackComponent={ErrorFallback}>
         <Suspense fallback={<Spinner />}>
           <TitleHeader />
-          <ScrollWrapper>
+          <KeepScrollContainer>
             <ContentWrapper>
               <Outlet />
             </ContentWrapper>
-          </ScrollWrapper>
+          </KeepScrollContainer>
           <ModalContainer />
         </Suspense>
       </ErrorBoundary>
