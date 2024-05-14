@@ -1,7 +1,7 @@
 import { atom } from 'recoil';
 
 interface ScrollState {
-  [key: string]: number | null;
+  [pathname: string]: number | null;
 }
 
 export const scrollAtom = atom<ScrollState>({
