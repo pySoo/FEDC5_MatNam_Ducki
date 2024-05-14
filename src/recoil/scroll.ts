@@ -1,14 +1,10 @@
 import { atom } from 'recoil';
 
 interface ScrollState {
-  x: number;
-  y: number;
+  [key: string]: number | null;
 }
 
 export const scrollAtom = atom<ScrollState>({
   key: 'scrollState',
-  default: {
-    x: 0,
-    y: 0,
-  },
+  default: {},
 });
